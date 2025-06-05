@@ -1,0 +1,94 @@
+/* WordPress Coffee Shop Theme Structure */
+
+/* STEP 1: style.css (Theme Header Info) */
+/* Paste this at the top of style.css */
+
+/*
+Theme Name: Coffee Haven
+Theme URI: https://example.com/coffee-haven
+Author: Your Name
+Author URI: https://example.com
+Description: A warm, aesthetic coffee shop theme.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: coffee-haven
+*/
+
+/* After this, paste the CSS I provided earlier */
+
+/* STEP 2: functions.php (enqueue styles) */
+<?php
+function coffeehaven_enqueue_styles() {
+    wp_enqueue_style('coffeehaven-style', get_stylesheet_uri());
+}
+add_action('wp_enqueue_scripts', 'coffeehaven_enqueue_styles');
+?>
+
+/* STEP 3: header.php */
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php bloginfo('name'); ?><?php wp_title('|'); ?></title>
+    <?php wp_head(); ?>
+</head>
+<body <?php body_class(); ?>>
+
+<header>
+    <div class="container">
+        <div class="logo">Coffee Haven</div>
+        <nav>
+            <?php wp_nav_menu(array('theme_location' => 'main-menu')); ?>
+        </nav>
+    </div>
+</header>
+
+/* STEP 4: footer.php */
+<footer>
+    <div class="container text-center">
+        <p>&copy; <?php echo date('Y'); ?> Coffee Haven. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="#">FB</a>
+            <a href="#">IG</a>
+            <a href="#">TW</a>
+        </div>
+    </div>
+</footer>
+<?php wp_footer(); ?>
+</body>
+</html>
+
+/* STEP 5: index.php */
+<?php get_header(); ?>
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Coffee Haven</h1>
+        <p>Your perfect cup awaits</p>
+        <a href="#menu" class="btn btn-primary mt-1">See Our Menu</a>
+    </div>
+</section>
+
+<section id="menu" class="menu-section container">
+    <h2 class="menu-title">Our Menu</h2>
+    <div class="menu-grid">
+        <?php get_template_part('menu', 'hot'); ?>
+        <?php get_template_part('menu', 'ice'); ?>
+        <?php get_template_part('menu', 'frappe'); ?>
+        <?php get_template_part('menu', 'cookies'); ?>
+    </div>
+</section>
+<?php get_footer(); ?>
+
+/* STEP 6: Create menu-hot.php, menu-ice.php, menu-frappe.php, menu-cookies.php files with the HTML sections from before */
+
+/* STEP 7: Add functions to register menu */
+<?php
+function coffeehaven_setup() {
+    register_nav_menus(array(
+        'main-menu' => __('Main Menu', 'coffee-haven')
+    ));
+}
+add_action('after_setup_theme', 'coffeehaven_setup');
+?>
